@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors game @rj developer</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+            text-align: center;
+        }
+        .nav_bar{
+            background-color: darkslategray;
+            height:5rem;
+            line-height: 5rem;
+            color:white;
+            font-size:2rem;
+        }
+        .choices{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height:200px;
+            /* background-color: red; */
+            gap:4rem;
+        }
+        .choice{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height:130px;
+            width:130px;
+            border-radius: 50%;
+        }
+        .choice:hover{
+            background-color:black;
+            cursor: pointer;
+        }
+        .choice img{
+            height: 120px;
+            width:120px;
+            border-radius: 50%;
+            line-height: 130px;
+            font-size:2rem;
+        }
+        .winnerPoint{
+            display:flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 5rem;
+            font-size: 2rem
+        }
+        #userScore,#computerScore{
+            font-size: 3rem;
+        }
+        .winStatus{
+            margin-top: 5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5rem;
+        }
+        #status{
+            width:250px;
+            background-color: darkorange;
+            font-size: 3rem;
+            border-radius: 1rem;
+        }
+        #restart{
+            display: inline;
+            background-color: darkorange;
+            font-size: 3rem;
+            border-radius: 1rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Nav bar rock Paper scissor -->
+    <div class="nav_bar">
+        <h1>Rock Paper Scissors</h1>
+    </div>
+    <!-- Choices for user -->
+    <div class="choices">
+        <div class="choice" id="rock">
+            <img src="https://th.bing.com/th/id/OIP.9D6oXawouvOX4VhT9Qf0bwHaDH?w=305&h=147&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="">
+        </div>
+        <div class="choice" id="paper">
+            <img src="https://th.bing.com/th/id/OIP.5QbM8ZxvDZwKFF7QqIUCDQAAAA?w=167&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="">
+        </div>
+        <div class="choice" id="scissor">
+            <img src="https://th.bing.com/th/id/OIP.Em-FFpvUMIQShKf05PhA0wAAAA?w=167&h=180&c=7&r=0&o=5&dpr=1.6&pid=1.7" alt="">
+        </div>
+    </div>
+    <!-- Show user and computer win point -->
+    <div class="winnerPoint">
+        <div class="userPoint">
+            <p id="userScore">0</p>
+            <p>You</p>
+        </div>
+        <div class="computerPoint">
+            <p id="computerScore">0</p>
+            <p>Comp</p>
+        </div>
+    </div>
+    <!-- Show win status -->
+    <div class="winStatus">
+        <p id="status">Play</p>
+        <p id="restart" onclick="restart()">Restart</p>
+    </div>
+
+
+    <script>
+        let userScore=0;
+        let computerScore=0;
+        // let restart=document.getElementById("restart");
+        const choice=document.querySelectorAll(".choice");
+        let userScoreAccess=document.getElementById("userScore");
+        let computerScoreAccess=document.getElementById("computerScore");
+        let winStatus=document.getElementById("status");
+
+        const drawChoice=()=>{
+            winStatus.innerText="Game Draw";
+            winStatus.style.backgroundColor="darkorange";
+        }
+        const finalWinner=(userWin)=>{
+            if(userWin){
+                userScore++;
+                userScoreAccess.innerText=userScore;
+                winStatus.innerText="You Win !!";
+                winStatus.style.backgroundColor="green";
+            }
+            else{
+                computerScore++;
+                computerScoreAccess.innerText=computerScore;
+                winStatus.innerText="You Lose !!";
+                winStatus.style.backgroundColor="red";
+            }
+        }
+
+        const genComputerChoice=()=>{
+            const option=["rock","paper","scissors"];
+            let randomRdx=Math.floor(Math.random()*3);
+            return option[randomRdx];
+        }
+        const playGame=(userChoice)=>{
+            const computerChoice=genComputerChoice();
+            if(userChoice===computerChoice){
+                drawChoice();
+            }
+            else{
+                let userWin=true;
+                if(userChoice==="rock"){
+                    //paper,scissor
+                    if(computerChoice==="paper"){
+                        userWin=false;
+                    }
+                    else{
+                        userWin=true;
+                    }
+                }
+                else if(userChoice==="paper") {
+                    //sessiors,rock
+                    if(computerChoice==="rock"){
+                        userWin=true;
+                    }
+                    else{
+                        userWin=false;
+                    }
+                }
+                else{
+                    //paper,rock
+                    if(computerChoice==="paper"){
+                        userWin=true;
+                    }
+                    else{
+                        userWin=false;
+                    }
+                }
+                finalWinner(userWin);
+            }
+        }
+        choice.forEach(choice=> {
+            choice.addEventListener("click",()=>{
+                const userChoice=choice.getAttribute("id");
+                playGame(userChoice);
+            })
+        });
+        function restart(){
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>
